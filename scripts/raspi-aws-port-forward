@@ -1,0 +1,22 @@
+AWS Configuration:
+
+ubuntu@ip-XXX-XX-XX-XXX:~$ 
+ubuntu@ip-XXX-XX-XX-XXX:~$ cat /etc/systemd/system/socat.service 
+[Unit]
+Description=socat TCP port forwarder
+After=network.target
+
+[Service]
+User=root
+WorkingDirectory=/root
+ExecStart=/usr/bin/socat TCP-LISTEN:1195,fork TCP:0.0.0.0:8080
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+ubuntu@ip-XXX-XX-XX-XXX:~$
+
+
+Raspberry Pi Configuration:
+
+@reboot sleep 60 && /usr/bin/ssh -f -N -i /home/pi/.ssh/aws.pem -R 8080:192.168.111.200:1195 ubuntu@<REMOTE_IP>
